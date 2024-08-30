@@ -1,0 +1,22 @@
+287-391 - post first irradiation annealing (10+0min)
+787-871 - post second irradiation annealing (10+5min)
+1397-1478 - post third irradiation annealing (10+10min)
+
+1743-2240 - then 10 min irradiation and then: 
+	1min @ 5%
+	1min @ 10%
+	1min @ 15%
+	1min @ 20%
+	1min et qq @ 25%
+	un peu - d'1min @ 30%
+	1min @ 35%
+	1min @ 50%
+	1min @ 100%
+	1min @ 1%
+	30s  @ 2%
+	30s  @ 3%
+	30s  @ 4%
+	30s  @ 5%
+	30s  @ 10%
+	Then back @ 100% at 13'
+	

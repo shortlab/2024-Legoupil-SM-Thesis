@@ -1,0 +1,107 @@
+# quench glass from melted beta cristobalite SiO2
+# Aurélien Legoupil, January 2023
+# PSFC - MIT
+
+# This version is inspired by the OSU thesis
+
+
+# ---------- INITIALIZATION ----------------------------------------------------
+clear
+echo         	both
+timer		full
+units		metal
+dimension	3
+processors	* * *
+boundary	p p p
+
+# -------- SEEDS ---------------------------------------------------------------
+variable    VSeed equal 789456
+variable    TSeed equal 852456
+variable    swapSeed equal 123456
+
+# ---------- GEOMETRY DEFINITION -----------------------------------------------
+
+atom_style	 charge
+#atom_modify	 map array
+read_data        beta-cristobalite.data
+
+group    Si type 1
+group    O type 2
+
+# ---------- POTENTIAL ---------------------------------------------------------
+pair_style tersoff
+pair_coeff	* * /home/aurelienlegoupil/projects/LAMMPS_studies/INTERATOMIC_POTENTIALS/2007_SiO.tersoff Si O
+
+# ---------- SETTINGS ----------------------------------------------------------
+# COMPUTES
+#compute	   myRDF all rdf 2000 1 1 2 2 1 2 2 1 cutoff 4
+
+# VARIABLES
+variable	filename string SiO2-glass-thesisquench
+
+variable	dt equal 0.001
+
+variable	Temp1 equal 7000
+variable	t1 equal 200/dt
+variable	Temp2 equal 7000
+variable	t2 equal 100/dt
+variable        t23 equal 470/dt
+variable	Temp3 equal 300
+variable	t3 equal 100/dt
+
+
+variable	N equal count(all)
+
+# --------- OUTPUT SETTINGS ----------------------------------------------------
+# PRINT-SCREEN
+
+thermo		100
+thermo_style	custom step time temp pe press vol lx ly lz pxx pyy pzz ke density
+
+dump            1 all custom 1000 dump_lammpstrj id type x y z
+
+# --------- MINIMIZATION -------------------------------------------------------
+minimize        1.0e-10 1.0e-10 100000 100000
+
+# --------- SIMULATION STEPS ---------------------------------------------------
+
+velocity   all create ${Temp1} ${TSeed} mom yes 		#If mom = yes, the linear momentum of the newly created ensemble of velocities is zeroed; if rot = yes, the angular momentum is zeroed.
+
+timestep ${dt}
+
+fix		1 all nvt temp ${Temp1} ${Temp1} 0.1
+run		${t1}
+unfix		1
+
+fix		2 all npt temp ${Temp2} ${Temp2} 0.1 iso 0 0 1
+run		${t2}
+unfix		2
+
+fix		23 all npt temp ${Temp2} ${Temp3} 0.1 iso 0 0 1
+run		${t23}
+unfix		23
+
+fix		3 all npt temp ${Temp3} ${Temp3} 0.1 iso 0 0 1
+run		${t3}
+unfix		3
+
+
+# --------- MINIMIZATION -------------------------------------------------------
+minimize        1.0e-10 1.0e-10 100000 100000
+
+# --------- fix rdf output -----------------------------------------------------
+#reset_timestep	0
+#fix 		10 all ave/time 100 1 100 c_myRDF[*] file ${filename}_rdf.txt mode vector
+#run		10
+#unfix		10
+
+# ---------- OUTPUTS -----------------------------------------------------------
+
+# WRITE FILES
+write_data	final_${filename}.data
+write_restart	final_${filename}.restart
+
+################################################################################
+# ---------- SIMULATION DONE ---------------------------------------------------
+print		"All done"
+print		"Number of atoms = $N"

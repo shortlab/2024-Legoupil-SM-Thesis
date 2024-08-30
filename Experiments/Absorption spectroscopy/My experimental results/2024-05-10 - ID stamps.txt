@@ -1,0 +1,22 @@
+0 - first spectrum
+425 - end of irradiation a) (10+5) during this one
+426 - first full spectrum post a) (10+5min)
+
+540 - seems to be fully annealed spectrum post a)
+554 - light turned off during this spectrum
+816 - end of irradiation b) (10+0) during this one
+817 - first full spectrum post b) (10+0min)
+
+900 - last full spectrum before c)
+1313 - first full spectrum post c) (10+5min)
+
+1411 - last full spectrum before d)
+1968 - first full spectrum post d) (10+10min)
+
+2046 - last full spectrum before e)
+2587 - first full spectrum post e) (10+10:05min)
+
+2664 - last full spectrum before f)
+3080 - first full spectrum post f) (10+5min)
+
+3188 - last full spectrum

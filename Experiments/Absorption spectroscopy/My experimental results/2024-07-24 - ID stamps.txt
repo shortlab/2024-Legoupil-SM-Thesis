@@ -1,0 +1,8 @@
+0 - first spectrum
+311 - last full spectrum before a) (I think the irrad started before or during 312)
+836 - first full spectrum post irradiation a) (10+10min)
+
+OA and then TA for a long time
+
+4912 - last full spectrum before b)
+5178 - first full spectrum post b) (10+10s)
